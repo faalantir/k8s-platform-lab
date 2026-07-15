@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: opencost
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://opencost.github.io/opencost-helm-chart
+    chart: opencost
+    targetRevision: 1.34.0
+    helm:
+      values: |
+        opencost:
+          exporter:
+            defaultClusterId: "mac-m3-cluster"
+          prometheus:
+            # Wire OpenCost directly to the Prometheus server we just deployed
+            external:
+              url: "http://prometheus-server.monitoring.svc.cluster.local:80"
+            internal:
+              enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
