@@ -12,6 +12,8 @@ spec:
     helm:
       values: |
         server:
+          persistentVolume:
+            enabled: false
           retention: 2d
           global:
             scrape_interval: 1m

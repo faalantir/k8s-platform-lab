@@ -17,6 +17,7 @@ spec:
           prometheus:
             # Wire OpenCost directly to the Prometheus server we just deployed
             external:
+              enabled: true
               url: "http://prometheus-server.monitoring.svc.cluster.local:80"
             internal:
               enabled: false
